@@ -1,0 +1,18 @@
+version: 0.2
+
+env:
+  variables:
+      BUILDX_VERSION: "v0.10.0"
+      ECR_URL: "701147072243.dkr.ecr.us-east-1.amazonaws.com"
+      ECR_REPO_NAME: "grpc-event-stream"
+      
+phases:
+  install:
+    commands:
+      - aws --version
+      - kubectl version --client
+  pre_build:
+    commands:
+      - aws sts get-caller-identity
+      # - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name cb-test-cluster
+      # - kubectl get pod
