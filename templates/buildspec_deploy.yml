@@ -4,7 +4,7 @@ env:
   variables:
       BUILDX_VERSION: "v0.10.0"
       ECR_URL: "701147072243.dkr.ecr.us-east-1.amazonaws.com"
-      ECR_REPO_NAME: "grpc-event-stream"
+      ECR_REPO_NAME: "geo-tracking-redis"
       
 phases:
   install:

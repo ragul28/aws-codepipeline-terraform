@@ -4,8 +4,9 @@ env:
   variables:
       BUILDX_VERSION: "v0.10.0"
       ECR_URL: "701147072243.dkr.ecr.us-east-1.amazonaws.com"
-      ECR_REPO_NAME: "grpc-event-stream"
-      
+      ECR_REPO_NAME: "geo-tracking-redis"
+      ECR_TAG: $CODEBUILD_RESOLVED_SOURCE_VERSION
+
 phases:
   install:
     commands:
@@ -17,15 +18,14 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_URL
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_URL
   build:
     commands:
+      - echo Build started on `date`
       - go mod download
       - mkdir ./build/bin
-      - CGO_ENABLED=0 go build -ldflags="-s -w" -o=./build/bin/. ./cmd/gateway/...
-      - echo Build started on `date`
+      - CGO_ENABLED=0 go build -ldflags="-s -w"
       - echo Building the Docker image...
-      - cd ./build
       - sed -i 's|alpine|public.ecr.aws/docker/library/alpine|g' Dockerfile
       - docker buildx create --use --name crossx
-      - docker buildx build --push --platform=linux/arm64 -t $ECR_URL/$ECR_REPO_NAME:v1 .
+      - docker buildx build --push --platform=linux/arm64 -t $ECR_URL/$ECR_REPO_NAME:$ECR_TAG .
