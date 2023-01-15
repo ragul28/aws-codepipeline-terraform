@@ -76,7 +76,6 @@ module "codepipeline_terraform" {
   git_repo_branch       = var.git_repo_branch
   s3_bucket_name        = module.s3_artifacts_bucket.bucket
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
-  stages                = var.stage_input
   kms_key_arn           = module.codepipeline_kms.arn
   tags = {
     Project_Name = var.project_name

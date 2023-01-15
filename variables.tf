@@ -37,19 +37,9 @@ variable "git_provider_type" {
   default     = "GitHub"
 }
 
-variable "repo_approvers_arn" {
-  description = "ARN or ARN pattern for the IAM User/Role/Group that can be used for approving Pull Requests"
-  type        = string
-}
-
 variable "environment" {
   description = "Environment in which the script is run. Eg: dev, prod, etc"
   type        = string
-}
-
-variable "stage_input" {
-  description = "Tags to be attached to the CodePipeline"
-  type        = list(map(any))
 }
 
 variable "build_projects" {

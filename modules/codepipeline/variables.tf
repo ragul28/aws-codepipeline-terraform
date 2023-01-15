@@ -28,11 +28,6 @@ variable "tags" {
   type        = map(any)
 }
 
-variable "stages" {
-  description = "List of Map containing information about the stages of the CodePipeline"
-  type        = list(map(any))
-}
-
 variable "git_provider_type" {
   description = "Codestar connections support; GitHub, Bitbucket"
   default     = "GitHub"
