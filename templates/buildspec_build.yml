@@ -5,7 +5,6 @@ env:
       BUILDX_VERSION: "v0.10.0"
       ECR_URL: "701147072243.dkr.ecr.us-east-1.amazonaws.com"
       ECR_REPO_NAME: "geo-tracking-redis"
-      ECR_TAG: $CODEBUILD_RESOLVED_SOURCE_VERSION
 
 phases:
   install:
@@ -23,9 +22,12 @@ phases:
     commands:
       - echo Build started on `date`
       - go mod download
-      - mkdir ./build/bin
       - CGO_ENABLED=0 go build -ldflags="-s -w"
       - echo Building the Docker image...
       - sed -i 's|alpine|public.ecr.aws/docker/library/alpine|g' Dockerfile
       - docker buildx create --use --name crossx
-      - docker buildx build --push --platform=linux/arm64 -t $ECR_URL/$ECR_REPO_NAME:$ECR_TAG .
+      - docker buildx build --push --platform=linux/arm64 -t $ECR_URL/$ECR_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+
+artifacts:
+  files:
+    - '**/*'
