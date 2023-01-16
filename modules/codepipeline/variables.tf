@@ -3,11 +3,6 @@ variable "project_name" {
   type        = string
 }
 
-variable "git_repo_branch" {
-  description = "Default branch in the Source repo for which CodePipeline needs to be configured"
-  type        = string
-}
-
 variable "s3_bucket_name" {
   description = "S3 bucket name to be used for storing the artifacts"
   type        = string
@@ -33,5 +28,10 @@ variable "git_provider_type" {
   default     = "GitHub"
 }
 
-variable "git_owner" {}
-variable "git_repo" {}
+# variable "git_owner" {}
+# variable "git_repo" {}
+# variable "git_repo_branch" {}
+
+variable "git_repo_list" {
+  type = list(map(any))
+}

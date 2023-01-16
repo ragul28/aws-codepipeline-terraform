@@ -8,8 +8,9 @@ resource "aws_codestarconnections_connection" "this" {
 
 
 resource "aws_codepipeline" "terraform_pipeline" {
+  for_each = { for git_repo in var.git_repo_list : git_repo.id => git_repo }
 
-  name     = "${var.project_name}-pipeline"
+  name     = "${var.project_name}-${each.value.id}-pipeline"
   role_arn = var.codepipeline_role_arn
   tags     = var.tags
 
@@ -35,8 +36,8 @@ resource "aws_codepipeline" "terraform_pipeline" {
 
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.this.arn
-        FullRepositoryId = "${var.git_owner}/${var.git_repo}"
-        BranchName       = var.git_repo_branch
+        FullRepositoryId = "${each.value.owner}/${each.value.repo_name}"
+        BranchName       = each.value.branch
       }
     }
   }
@@ -61,14 +62,14 @@ resource "aws_codepipeline" "terraform_pipeline" {
   stage {
     name = "Deploy"
     action {
-      name            = "Deploy"
-      category        = "Build"
-      owner           = "AWS"
-      version         = "1"
-      provider        = "CodeBuild"
-      input_artifacts  = ["source"]
+      name             = "Deploy"
+      category         = "Build"
+      owner            = "AWS"
+      version          = "1"
+      provider         = "CodeBuild"
+      input_artifacts  = ["buildout"]
       output_artifacts = ["deployout"]
-      run_order       = 2
+      run_order        = 2
       configuration = {
         ProjectName = "${var.project_name}-deploy"
       }
