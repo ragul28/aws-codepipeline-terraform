@@ -13,11 +13,6 @@ output "codepipeline_name" {
   description = "The Name of the CodePipeline"
 }
 
-output "codepipeline_arn" {
-  value       = module.codepipeline_terraform.arn
-  description = "The ARN of the CodePipeline"
-}
-
 output "iam_arn" {
   value       = module.codepipeline_iam_role.role_arn
   description = "The ARN of the IAM Role used by the CodePipeline"

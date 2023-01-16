@@ -71,9 +71,7 @@ module "codepipeline_terraform" {
   source = "./modules/codepipeline"
 
   project_name          = var.project_name
-  git_owner             = var.git_owner
-  git_repo              = var.git_repo
-  git_repo_branch       = var.git_repo_branch
+  git_repo_list         = var.git_repo_list
   s3_bucket_name        = module.s3_artifacts_bucket.bucket
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
   kms_key_arn           = module.codepipeline_kms.arn

@@ -24,13 +24,13 @@ variable "codepipeline_iam_role_name" {
   default     = "codepipeline-role"
 }
 
-variable "git_repo_branch" {
-  description = "Default branch in the Source repo for which CodePipeline needs to be configured"
-  type        = string
-}
+# variable "git_owner" {}
+# variable "git_repo" {}
+# variable "git_repo_branch" {}
 
-variable "git_owner" {}
-variable "git_repo" {}
+variable "git_repo_list" {
+  type = list(map(any))
+}
 
 variable "git_provider_type" {
   description = "Codestar connections support; GitHub, Bitbucket"
