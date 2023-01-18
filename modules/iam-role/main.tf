@@ -111,7 +111,22 @@ resource "aws_iam_policy" "codepipeline_policy" {
     {
       "Effect": "Allow",
       "Action": [
-        "ecr:*"
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:DescribeImages",
+        "ecr:BatchGetImage",
+        "ecr:GetLifecyclePolicy",
+        "ecr:GetLifecyclePolicyPreview",
+        "ecr:ListTagsForResource",
+        "ecr:DescribeImageScanFindings",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:PutImage"
       ],
       "Resource": "*"
     },
@@ -123,6 +138,16 @@ resource "aws_iam_policy" "codepipeline_policy" {
         "logs:PutLogEvents"
       ],
       "Resource": "arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:log-group:*"
+    },
+    {
+      "Sid": "AllowEKSAccess",
+      "Effect": "Allow",
+      "Action": [
+        "eks:DescribeNodegroup",
+        "eks:DescribeUpdate",
+        "eks:DescribeCluster"
+      ],
+      "Resource": "arn:aws:eks:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:cluster/*"
     }
   ]
 }
@@ -134,3 +159,7 @@ resource "aws_iam_role_policy_attachment" "codepipeline_role_attach" {
   role       = aws_iam_role.codepipeline_role[0].name
   policy_arn = aws_iam_policy.codepipeline_policy[0].arn
 }
+
+# Addtional ecr permissions needed for buildx push image refer the links for details 
+# https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-push.html
+# https://github.com/docker/build-push-action/issues/166#issuecomment-705121176
