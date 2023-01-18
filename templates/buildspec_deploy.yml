@@ -14,5 +14,5 @@ phases:
   pre_build:
     commands:
       - aws sts get-caller-identity
-      # - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name cb-test-cluster
-      # - kubectl get pod
+      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name cb-test-cluster
+      - kubectl get pod
