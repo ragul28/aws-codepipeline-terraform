@@ -53,3 +53,8 @@ variable "kms_key_arn" {
   description = "ARN of KMS key for encryption"
   type        = string
 }
+
+variable "ecr_url" {
+  description = "ECR url to push docker image"
+  type        = string
+}

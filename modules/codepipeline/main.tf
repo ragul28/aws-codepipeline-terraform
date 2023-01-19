@@ -55,6 +55,9 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
       configuration = {
         ProjectName = "${var.project_name}-build"
+        EnvironmentVariables = <<EOF
+[{"name":"SERVICE_NAME","type":"PLAINTEXT","value":"${each.value.repo_name}"}]
+EOF
       }
     }
   }
