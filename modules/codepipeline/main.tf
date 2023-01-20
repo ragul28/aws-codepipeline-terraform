@@ -54,7 +54,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       output_artifacts = ["buildout"]
       run_order        = 1
       configuration = {
-        ProjectName = "${var.project_name}-build"
+        ProjectName          = "${var.project_name}-${each.value.build_stage}"
         EnvironmentVariables = <<EOF
 [{"name":"SERVICE_NAME","type":"PLAINTEXT","value":"${each.value.repo_name}"}]
 EOF
@@ -74,7 +74,7 @@ EOF
       output_artifacts = ["deployout"]
       run_order        = 2
       configuration = {
-        ProjectName = "${var.project_name}-deploy"
+        ProjectName = "${var.project_name}-${each.value.deploy_stage}"
       }
     }
   }

@@ -6,11 +6,13 @@ profile    = "default"
 
 git_provider_type = "Github"
 
-git_repo_list = [
-  { id = "gtr", owner = "ragul28", repo_name = "geo-tracking-redis", branch = "master" }
-]
-
 create_new_role = true
 #codepipeline_iam_role_name = <Role name> - Use this to specify the role name to be used by codepipeline if the create_new_role flag is set to false.
 
 build_projects = ["build", "deploy"]
+
+git_repo_list = [
+  { id = "gtr", owner = "", repo_name = "", branch = "master", build_stage = "build", deploy_stage = "deploy" }
+]
+
+ecr_url = ""

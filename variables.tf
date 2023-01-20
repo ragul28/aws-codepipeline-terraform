@@ -76,3 +76,8 @@ variable "build_project_source" {
   type        = string
   default     = "CODEPIPELINE"
 }
+
+variable "ecr_url" {
+  description = "ECR url to push docker image"
+  type        = string
+}
